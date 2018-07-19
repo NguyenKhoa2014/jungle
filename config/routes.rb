@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root to: 'products#index'
 
+  get '/login' => 'sessions#new', as: :login
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy', as: :logout
+
   resources :products, only: [:index, :show]
   resources :categories, only: [:show]
 
@@ -19,6 +23,12 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#show'
     resources :products, except: [:edit, :update, :show]
+    
+  #   get 'products/:id' => 'catalog#view'
+
+  # Example of named route that can be invoked with purchase_url(id: product.id)
+  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+
     resources :categories, only: [:index, :new, :create]
   end
 
@@ -29,11 +39,6 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
